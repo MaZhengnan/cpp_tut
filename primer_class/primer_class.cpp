@@ -1,4 +1,5 @@
 #include "primer_class.h"
+#include <ostream>
 #include <string>
 #include <iostream>
 
@@ -184,3 +185,100 @@ void friend_class()
     box_friend.func();
     box_friend.func_nofriend();
 }
+
+// delegate constructor to reduce the code
+
+class NonDefault
+{
+public:
+    string str_;
+    NonDefault(string str) : str_(str) {}
+    NonDefault() = default;
+};
+
+class SalesClass
+{
+public:
+    int a_;
+    bool b_;
+    long c_;
+
+    static int static_member;
+    NonDefault
+        non_default; //这时有报错，必须要在这个class中加入default constructor
+    SalesClass(int a, bool b, long c) : a_(a), b_(b), c_(c)
+    {
+        cout << "in three arguments" << endl;
+    }
+    SalesClass(int a, bool b) : SalesClass(a, b, 100)
+    {
+        cout << "in two arguments" << endl;
+    }
+    explicit SalesClass(int a) : SalesClass(a, 1)
+    {
+        cout << "in one arguments" << endl;
+    }
+    SalesClass() = default;
+};
+
+void func(SalesClass sales_class)
+{
+    cout << "in function of sales class print" << endl;
+}
+
+void delegate_constructor()
+{
+    SalesClass sales_data(10);
+    func(SalesClass(20));
+    //这里编译器给做了隐式转换，不想做这种转换，要在constructor加 explicit
+    // func(20);
+}
+
+// static member varibles
+// we must define and initial each static data member outside the class body
+int SalesClass::static_member = 10;
+void static_member_varibles()
+{
+    SalesClass sales_data1(10);
+    SalesClass sales_data2(20);
+    cout << sales_data1.static_member << " " << sales_data2.static_member
+         << endl;
+
+    cout << "print static member if not define a class: "
+         << SalesClass::static_member << endl;
+}
+
+// file operator
+#include <fstream>
+
+void file_operator_fstream()
+{
+    std::ofstream os("mzn.txt", std::ios::app);
+    os << "hello world\n";
+    os << "This is a test file!\n";
+
+    // buffer
+    os.flush();
+    os.close();
+
+    std::ifstream is("mzn.txt");
+    string str;
+    getline(is, str);
+    cout << str << endl;
+}
+
+#include <sstream>
+void file_operator_sstream()
+{
+    string raw_string = "hello world";
+    std::stringstream ss(raw_string);
+    int count = 0;
+    string word;
+    while (ss >> word)
+    {
+        count++;
+    }
+    cout << "number of words in raw_string: " << count << endl;
+}
+
+void empty_func_1() {}

@@ -9,7 +9,10 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(base1)
 add_subdirectory(primer_base)
 add_subdirectory(primer_class)
+add_subdirectory(primer_container)
 
 add_executable(main main.cpp)
-target_link_libraries(main PUBLIC base1 primer_base primer_class)
-target_include_directories(main PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/base1)
+target_link_libraries(main PUBLIC base1
+                                    primer_base
+                                    primer_class
+                                    primer_container)
