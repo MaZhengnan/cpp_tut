@@ -13,6 +13,6 @@ void primer_container_main()
     // string_operate();
     // lambda_function();
     // associative_container();
-    pair_customarily_compare();
-    // empty_func_2();
+    //pair_customarily_compare();
+     empty_func_2();
 }

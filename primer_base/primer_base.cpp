@@ -39,8 +39,8 @@ void for_statement()
     std::cout << "Sum of 1 to 10 inclusive is " << sum << std::endl;
 }
 
-// chapter1.4.3 Read unknow of input
-void read_unknow_value_of_input()
+// chapter1.4.3 Read unknown of input
+void read_unknown_value_of_input()
 {
     int sum = 0, value = 0;
     // read until end-of-file, calculating a running total of all values read
@@ -49,7 +49,7 @@ void read_unknow_value_of_input()
     std::cout << "Sum is: " << sum << std::endl;
 }
 
-// chapter2 Read unknow of input
+// chapter2 Read unknown of input
 void data_type()
 {
     cout << "char: " << sizeof(char) << endl;

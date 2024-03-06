@@ -10,7 +10,7 @@ using std::endl;
 void friend_func();
 class Box;
 // initialization happen before assign
-// if there is a constant, must initail it in initialization
+// if there is a constant, must initial it in initialization
 class BoxFriend
 {
 public:
@@ -54,7 +54,7 @@ public:
     }
     ~Box() { cout << "This is the destructor of " << this->name_ << endl; }
 
-    void print_box_length() { cout << this->length_ << endl; }
+    void print_box_length() const { cout << this->length_ << endl; }
 
     Box& combine(const Box& rhs)
     {
@@ -70,7 +70,7 @@ public:
         cout << "after: " << this->mutable_test << endl;
     }
 
-    int get_type() { return this->type_; }
+    int get_type() const { return this->type_; }
 
     Box change_copy_mode(int a)
     {
