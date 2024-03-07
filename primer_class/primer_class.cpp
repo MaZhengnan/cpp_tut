@@ -25,9 +25,9 @@ public:
         this->a_ = a;
         // this->b_ = b;
     }
-    ~BoxFriend() {}
-    void func();
-    void func_nofriend();
+    ~BoxFriend() = default;
+    static void func();
+    static void func_no_friend();
 };
 
 /*
@@ -172,7 +172,7 @@ void BoxFriend::func()
     Box box("box", 10);
     cout << "in friend function: type " << box.type_ << endl;
 }
-void BoxFriend::func_nofriend()
+void BoxFriend::func_no_friend()
 {
     Box box("box", 10);
     // cout << "in friend function: type " << box.type_ << endl;
@@ -183,7 +183,7 @@ void friend_class()
 {
     BoxFriend box_friend(1);
     box_friend.func();
-    box_friend.func_nofriend();
+    box_friend.func_no_friend();
 }
 
 // delegate constructor to reduce the code
@@ -199,9 +199,9 @@ public:
 class SalesClass
 {
 public:
-    int a_;
-    bool b_;
-    long c_;
+    int a_ = 0;
+    bool b_ = false;
+    long c_ = 0;
 
     static int static_member;
     NonDefault
@@ -214,15 +214,16 @@ public:
     {
         cout << "in two arguments" << endl;
     }
-    explicit SalesClass(int a) : SalesClass(a, 1)
+    explicit SalesClass(int a) : SalesClass(a, true)
     {
         cout << "in one arguments" << endl;
     }
     SalesClass() = default;
 };
 
-void func(SalesClass sales_class)
+void func(const SalesClass &sales_class)
 {
+    cout << "print class a_: " << sales_class.a_ << endl;
     cout << "in function of sales class print" << endl;
 }
 
@@ -234,15 +235,19 @@ void delegate_constructor()
     // func(20);
 }
 
-// static member varibles
+// static member variables
 // we must define and initial each static data member outside the class body
 int SalesClass::static_member = 10;
-void static_member_varibles()
+void static_member_variables()
 {
     SalesClass sales_data1(10);
     SalesClass sales_data2(20);
     cout << sales_data1.static_member << " " << sales_data2.static_member
          << endl;
+
+    /* maybe this statement doesn't have the warning */
+    /* It's best to use the static member by class itself rather than by the instance */
+    cout << SalesClass::static_member << endl;
 
     cout << "print static member if not define a class: "
          << SalesClass::static_member << endl;

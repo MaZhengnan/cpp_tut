@@ -10,9 +10,11 @@ add_subdirectory(base1)
 add_subdirectory(primer_base)
 add_subdirectory(primer_class)
 add_subdirectory(primer_container)
+add_subdirectory(primer_dynamic_memory)
 
 add_executable(main main.cpp)
 target_link_libraries(main PUBLIC base1
                                     primer_base
                                     primer_class
-                                    primer_container)
+                                    primer_container
+                                    primer_dynamic_memory)

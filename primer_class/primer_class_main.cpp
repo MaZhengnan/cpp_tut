@@ -8,7 +8,7 @@ void primer_class_main()
     // const_test();
     // friend_class();
     // delegate_constructor();
-    // static_member_varibles();
+    // static_member_variables();
     // file_operator_fstream();
     // file_operator_sstream();
     empty_func_1();
