@@ -10,6 +10,7 @@
 using std::string;
 using std::cout;
 using std::endl;
+using std::ostream;
 
 
 /**
@@ -138,6 +139,130 @@ void virtual_shared_pointer_func()
 
     cout << "how many people are pointing at it -> " << *(res3.count_) << endl;
 
+}
+
+class Bar
+{
+    friend void swap(Bar&, Bar& );
+public:
+    int b_;
+    Bar(int b): b_(b){}
+};
+
+class Sw
+{
+    friend void swap(Sw&, Sw& );
+public:
+    string* s_;
+    int a_;
+    Bar bar_;
+
+    Sw(const string s): s_(new string(s)),a_(0),bar_(Bar(1)){}
+
+};
+
+inline void swap(Bar& bar1, Bar& bar2)
+{
+    cout << "in Bar swap" << endl;
+    using std::swap;
+    swap(bar1.b_, bar2.b_);
+}
+
+inline void swap(Sw& lhs, Sw& rhs)
+{
+    cout << "in Sw swap" << endl;
+    using std::swap;
+    swap(lhs.s_, rhs.s_);
+    swap(lhs.a_, rhs.a_);
+    swap(lhs.bar_, rhs.bar_);
+}
+
+
+void swap_func()
+{
+    Sw sw1("hello");
+    Sw sw2("shoot");
+    using std::swap;
+    swap(sw1,sw2);
+}
+
+class Move
+{
+public:
+    int a_;
+    Move(int a): a_(a)
+    {
+        cout << "in direct construct: " << a <<endl;
+    }
+    Move(const Move& move)
+    {
+        cout << "in copy constructor: " << move.a_ << endl;
+        this->a_ = move.a_;
+    }
+
+    /*
+     * move constructor
+     * if "int a" changes to "int* a"
+     * it's necessary to add the "a = nullptr" in move constructor
+     * because it will delete the "a" pointer
+     * */
+    Move(Move&& move) noexcept
+    {
+        cout << "in move constructor: " << move.a_ << endl;
+        this->a_ = move.a_;
+    }
+    ~Move()
+    {
+        cout << "in move destructor" << endl;
+    }
+};
+
+void moving_object()
+{
+    std::vector<Move> vec;
+    vec.push_back(Move(10));
+}
+//===========================================================
+// overloaded operator and conversions
+class C
+{
+    friend ostream& operator<<(ostream&, const C&);
+public:
+    int c_;
+    C(int c): c_(c){}
+    /*
+     * c1 + c2
+     * left hand side --- right hand side
+     * lhs rhs
+     * */
+    C& operator+(/* this */const C& c)
+    {
+        cout << "in operator+: " << c.c_ <<endl;
+        this->c_ += c.c_;
+        return *this;
+    }
+    ~C(){}
+};
+
+ostream& operator<<(ostream& os, const C& c)
+{
+    cout << "in operate << " << endl;
+    os << c.c_ << endl;
+    return os;
+}
+
+
+
+
+void operator_overloaded_func()
+{
+    C c1(1);
+    C c2(2);
+    c2 = c1 + c2;
+    cout << "c1: " << c1.c_ << endl;
+    cout << "c2: " << c2.c_ << endl;
+
+    cout << c1 << endl;
 }
 
 
