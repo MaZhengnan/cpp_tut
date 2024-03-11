@@ -9,6 +9,8 @@ void primer_copy_ctrl_main()
     // virtual_shared_pointer_func();
     // swap_func();
     // moving_object();
-    operator_overloaded_func();
+    // operator_overloaded_func();
+    // operator_overloaded_prefix_func();
+    // operator_overloaded_member_access();
     empty_func_5();
 }

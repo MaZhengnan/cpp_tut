@@ -229,6 +229,7 @@ class C
     friend ostream& operator<<(ostream&, const C&);
 public:
     int c_;
+    std::vector<int> vec_{1,2,3};
     C(int c): c_(c){}
     /*
      * c1 + c2
@@ -241,6 +242,49 @@ public:
         this->c_ += c.c_;
         return *this;
     }
+    bool operator==(const C& c) const
+    {
+        cout << "in operator== " <<endl;
+        return (this->c_ == c.c_);
+    }
+    bool operator!=(const C& c) const
+    {
+        cout << "in operator!= " <<endl;
+        return this->c_ != c.c_;
+    }
+
+    /* Assignment operators can be overloaded.
+     * Assignment operators.
+     * regardless of parameter type,
+     * must be defined as member functions
+     * */
+    C& operator=(std::initializer_list<int> list)
+    {
+        cout <<"in operator=" <<endl;
+        for(const int& num : list)
+        {
+            vec_.push_back(num);
+        }
+        return *this;
+    }
+
+    /* subscript operator must be a member function
+     * usually define two versions
+     * one is non-const
+     * the other one is const
+     * */
+    int& operator[](std::size_t index)
+    {
+        cout << "in non-const operator[]" << endl;
+        return vec_[index];
+    }
+    /* subscript operator must be a member function */
+    const int& operator[](std::size_t index) const
+    {
+        cout << "in const operator[]" << endl;
+        return vec_[index];
+    }
+
     ~C(){}
 };
 
@@ -252,18 +296,127 @@ ostream& operator<<(ostream& os, const C& c)
 }
 
 
-
-
 void operator_overloaded_func()
 {
     C c1(1);
     C c2(2);
+    C c3(1);
+    C c4(2);
+    /* operator+ */
     c2 = c1 + c2;
     cout << "c1: " << c1.c_ << endl;
     cout << "c2: " << c2.c_ << endl;
-
+    /* operator<< */
     cout << c1 << endl;
+    /* operator== */
+    cout<< (c3==c4) << endl;
+    cout<< (c3!=c4) << endl;
+    /* operator= */
+    c3 = {4,5,6};
+    cout << c3.vec_.size() <<endl;
+
+    /* operator[] */
+    cout << c3[3] <<endl;
+    cout << c3.operator[](3)<< endl;
+
+    const C c5(2);
+    cout << c5[2] <<endl;
+    cout << c5.operator[](2) << endl;
 }
+
+
+
+class Point
+{
+public:
+    int x_;
+    int y_;
+    Point(int x, int y):x_(x),y_(y){}
+    Point& operator++() // prefix
+    {
+        x_ += 1;
+        y_ += 1;
+        cout << "prefix current sum is " << x_ << " " << y_ << endl;
+        return *this;
+    }
+
+    Point& operator++(int) // postfix
+    {
+        x_ += 1;
+        cout << "postfix current sum is " << x_ << " " << y_ << endl;
+        return *this;
+    }
+
+
+};
+
+/*
+ * i++, ++i
+ * 1. better to put this type of reloaded operator into class
+ * 2. return reference when prefix++
+ * 3. using int to distinguish between prefix & postfix
+ * */
+void operator_overloaded_prefix_func()
+{
+    Point point(1,1);
+    ++point;
+    point++;
+}
+
+
+class D {
+public:
+    int d_;
+    D(int d): d_(d){}
+    void func()
+    {
+        cout << "in class D func " << endl;
+    }
+    ~D()=default;
+};
+
+class E
+{
+public:
+    int e_;
+    D* pd_;
+    E(int e):e_(e),pd_(new D(e)){}
+
+    D* operator->()
+    {
+        cout << "in operator->" << endl;
+        return pd_;
+    }
+
+    int operator()()
+    {
+        cout << "in int operator()()" << endl;
+        return (e_ + 1);
+    }
+    int operator()(int a)
+    {
+        cout << "in int operator()(int a)" << endl;
+        return (e_ + a + 1);
+    }
+    string operator()(int a, int b)
+    {
+        cout << "in string operator()(int a, int b)" << endl;
+        int res = (e_ + a + b + 1);
+        return std::to_string(res);
+    }
+};
+
+
+void operator_overloaded_member_access()
+{
+    E e1(1);
+    e1->func();
+    cout<< e1->d_ << endl;
+    cout << e1() << endl;
+    cout << e1(1) << endl;
+    cout << e1(1,2) << endl;
+}
+
 
 
 void empty_func_5() {}

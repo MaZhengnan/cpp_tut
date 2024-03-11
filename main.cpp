@@ -5,6 +5,7 @@
 #include "primer_03_container/primer_container.h"
 #include "primer_04_dynamic_memory/primer_dynamic_mem.h"
 #include "primer_05_copy_ctrl/primer_copy_ctrl.h"
+#include "primer_06_oop/primer_oop.h"
 
 int main(int argv, char *argc[])
 {
@@ -13,5 +14,6 @@ int main(int argv, char *argc[])
     primer_container_main();
     primer_dynamic_main();
     primer_copy_ctrl_main();
+    primer_oop_main();
     return 0;
 }

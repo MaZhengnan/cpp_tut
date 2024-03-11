@@ -7,5 +7,7 @@ void virtual_shared_pointer_func();
 void swap_func();
 void moving_object();
 void operator_overloaded_func();
+void operator_overloaded_prefix_func();
+void operator_overloaded_member_access();
 void empty_func_5();
 #endif
