@@ -13,6 +13,7 @@ add_subdirectory(primer_03_container)
 add_subdirectory(primer_04_dynamic_memory)
 add_subdirectory(primer_05_copy_ctrl)
 add_subdirectory(primer_06_oop)
+add_subdirectory(primer_07_template)
 
 add_executable(main main.cpp)
 target_link_libraries(main PUBLIC base1
@@ -21,4 +22,5 @@ target_link_libraries(main PUBLIC base1
         primer_container
         primer_dynamic_memory
         primer_copy_ctrl
-        primer_oop)
+        primer_oop
+        primer_template)

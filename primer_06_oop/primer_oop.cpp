@@ -86,6 +86,14 @@ public:
     {
         cout << "Book" << endl;
     }
+    /*
+     * pure virtual function
+     * if define a pure virtual function in a class
+     * the class is the abstract base class
+     * 不能被实例化
+     * */
+
+    virtual void func1()=0;
     ~Book(){
         cout << "in book destructor" << endl;
     }
@@ -104,6 +112,11 @@ public:
     {
         cout << "Comic Book" << endl;
     }
+
+    void func1() override
+    {
+        cout << "in Comic Book pure virtual function" << endl;
+    }
     ~ComicBook(){
         cout << "in comic book destructor" << endl;
     }
@@ -115,6 +128,10 @@ public:
     void func() override
     {
         cout << "Action Book" << endl;
+    }
+    void func1() override
+    {
+        cout << "Action Book pure virtual function" << endl;
     }
     ~ActionBook(){
         cout << "in action book destructor" << endl;
@@ -128,7 +145,10 @@ public:
 void basic_class()
 {
     ComicBook cb(true);
-    cb.func();
+    Book& b = cb;
+    b.func();
+    b.Book::func();
+    // Book b1("123"); // error!!!
 }
 
 

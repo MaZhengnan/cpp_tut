@@ -5,6 +5,6 @@
 void primer_oop_main()
 {
     // virtual_func();
-    basic_class();
+    // basic_class();
     empty_func_6();
 }
