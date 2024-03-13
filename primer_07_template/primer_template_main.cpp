@@ -4,6 +4,9 @@
 
 void primer_template_main()
 {
-    template_overview();
     empty_func_7();
+    // template_overview();
+    // class_template();
+    // template_default_argument();
+    template_nested();
 }
