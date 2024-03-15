@@ -5,5 +5,6 @@ void template_overview();
 void class_template();
 void template_default_argument();
 void template_nested();
+void template_argument_deduction();
 void empty_func_7();
 #endif

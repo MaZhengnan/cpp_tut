@@ -122,16 +122,37 @@ void template_nested()
     d(p);
 }
 
-// controlling instantiations
 
+template <typename T>
+void function(T a)
+{
+    cout << a << endl;
+}
 
+template <typename T1, typename T2, typename T3>
+void function2(T1 a1, T2 a2, T3 a3)
+{
+    cout << a1 << endl;
+}
 
+template <typename It>
+auto function3(It begin, It end) -> decltype(*begin)
+{
+    return *begin;
+}
 
+void template_argument_deduction()
+{
+    const int a = 10;
+    function(a);
+    function2<int, long, long long>(1,3,4);
+    function2<int>(1,3,4); // 'int' in this function represents T1
 
-
-
-
-
+    std::vector<int> vec = {1, 2, 3};
+    int& vv = function3(vec.begin(),vec.end());
+    vv = 10;
+    cout << "vv: " << vec[0] << endl;
+}
 
 void empty_func_7() {
     cout << "In folder 'primer_07_template'!!!" << endl;

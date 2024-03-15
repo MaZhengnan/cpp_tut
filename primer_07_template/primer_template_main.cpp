@@ -8,5 +8,6 @@ void primer_template_main()
     // template_overview();
     // class_template();
     // template_default_argument();
-    template_nested();
+    // template_nested();
+    template_argument_deduction();
 }
