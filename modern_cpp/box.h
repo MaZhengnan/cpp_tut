@@ -6,71 +6,116 @@
 #include <string>
 #include <ostream>
 #include <iostream>
+#include <utility>
 #include <vector>
 
-class Boxx
-{
-    friend std::ostream& operator<<(std::ostream& os, const Boxx&);
+class Boxes {
+    friend std::ostream &operator<<(std::ostream &os, const Boxes &);
 
 public:
-    int* serial_number_;
-    int length_{};
+    int *serial_number_;
+    int length_;
     int width_;
     int height_;
-    bool is_good_;
-    std::string color_;
 
-    int volume = 0;
+    int volume_ = 0;
     std::vector<std::string> vec_;
 
-    Boxx(std::string name, int serial_number, int length, int width, int height, bool is_good,
-         std::string color)
-        : name_(name),
-          serial_number_(new int(serial_number)),
-          length_(length),
-          width_(width),
-          height_(height),
-          is_good_(is_good),
-          color_(color)
-    {
+    /* why is the string name should use the std::move? */
+    Boxes(std::string name, int serial_number, int length, int width, int height)
+            : name_(std::move(name)),
+              serial_number_(new int(serial_number)),
+              length_(length),
+              width_(width),
+              height_(height) {
         std::cout << "Customer initialization list constructor all" << std::endl;
     }
-    Boxx(std::string name, int serial_number, int length, int width, int height, bool is_good)
-        : Boxx(name, serial_number, length, width, height, is_good, "red")
-    {
-    }
-    Boxx(std::string name, int length, int width, int height)
-        : Boxx(name, length, width, height, true, "red")
-    {
-        std::cout << "Customer initialization list constructor optional" << std::endl;
+
+    Boxes(std::string name, int serial_number)
+            : Boxes(std::move(name), serial_number, 1, 1, 1) {
     }
 
     /* copy constructor */
-    Boxx(const Boxx& other);
+    Boxes(const Boxes &other);
 
     /* move constructor */
-    Boxx(Boxx&& other) noexcept;
+    Boxes(Boxes &&other) noexcept;
 
     /* move assignment constructor */
-    Boxx& operator=(Boxx& other) noexcept;
+    Boxes &operator=(Boxes other) noexcept;
+
+    Boxes &operator+(const Boxes &other) {
+        std::cout << "in operator+: " << std::endl;
+        this->height_ += other.height_;
+        return *this;
+    }
+
+    bool operator==(const Boxes &other) const {
+        // std::cout << "in operator== " << std::endl;
+        return (this->volume_ == other.volume_);
+    }
+
+    bool operator!=(const Boxes &other) const {
+        std::cout << "in operator!= " << std::endl;
+        return this->volume_ != other.volume_;
+    }
+
+    Boxes &operator++() // prefix
+    {
+        this->height_ += 1;
+        std::cout << "prefix current height is " << this->height_ << std::endl;
+        return *this;
+    }
+
+    Boxes operator++(int) // postfix
+    {
+        this->height_ += 1;
+        std::cout << "postfix current height is " << this->height_ << std::endl;
+        return *this;
+    }
+
+
+    int *operator->() const {
+        std::cout << "in operator->" << std::endl;
+        return this->serial_number_;
+    }
+
+    int operator()() {
+        std::cout << "in int operator()()" << std::endl;
+        return (this->height_ + 1);
+    }
+
+    int operator()(int a) const {
+        std::cout << "in int operator()(int a)" << std::endl;
+        return (this->height_ + a);
+    }
+
+    std::string operator()(int a, int b) const {
+        std::cout << "in string operator()(int a, int b)" << std::endl;
+        int res = (this->height_ + a + b);
+        return std::to_string(res);
+    }
+
 
     virtual void message();
+
     std::string get_name();
+
     void set_name(std::string name);
 
-    Boxx& change_length_ref(int length);
-    Boxx& change_width_ref(int width);
-    Boxx& change_height_ref(int height);
+    Boxes &change_height_ref(int height);
 
-    Boxx change_length_copy(int length);
-    Boxx change_width_copy(int width);
-    Boxx change_height_copy(int height);
+    Boxes change_height_copy(int height);
 
     int get_box_volume();
+
     void size_message();
-    void add_item(std::string);
+
+    void add_item(const std::string &);
+
     void print_all_contents();
-    ~Boxx();
+
+    ~Boxes();
 
 private:
     std::string name_;
